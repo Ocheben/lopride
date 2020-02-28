@@ -18,12 +18,13 @@ import {
   colors,
   LogoImg,
 } from '../../Components/styledComponents';
-import {MenuIcon} from '../../Components/icons';
+import {MenuIcon, TurnOffIcon} from '../../Components/icons';
 import {formatDate} from '../../_helpers';
 import {Spinner, Item, Picker, Icon, CheckBox, Body} from 'native-base';
+import {Advert} from '../../Components/Components';
 
 const {height, width} = Dimensions.get('window');
-const logo = require('../../assets/img/logo.png');
+const ad = require('../../assets/img/ad.png');
 
 const Home = props => {
   const {navigation, dispatch, userInfo, userData} = props;
@@ -44,57 +45,27 @@ const Home = props => {
 
   return (
     <Content bg="#ffffff">
-      <StatusBar backgroundColor="#ffffff" barStyle="light-content" />
-      <Content
-        width="100%"
-        bg={colors.primary}
-        flex={4}
-        // blRadius={20}
-        // brRadius={20}
-      />
-      <Content align="flex-start" width="80%" flex={4}>
-        <Content align="flex-start">
-          <SText color="#444444" align="left" size="15px">
-            Refill your Gas
-          </SText>
-        </Content>
-        <Item picker>
-          {/* <Label>Preferred Response</Label> */}
-          <Picker
-            mode="dropdown"
-            iosIcon={<Icon name="arrow-down" />}
-            style={{width: undefined}}
-            placeholder="Select Cylinder"
-            placeholderStyle={{color: '#bfc6ea'}}
-            placeholderIconColor="#007aff"
-            selectedValue={cylinder}
-            onValueChange={value => setCylinder(value)}>
-            <Picker.Item label="Select Cylinder" value={null} />
-            <Picker.Item label="4kg" value="4" />
-            <Picker.Item label="8kg" value="8" />
-            <Picker.Item label="12kg" value="12" />
-          </Picker>
-        </Item>
-        <Content horizontal justify="center">
-          <CheckBox
-            checked={buyCylinder}
-            onPress={() => setBuyCylinder(prev => !prev)}
-            color={colors.primary}
-          />
-          <SText color="#444444" size="18px" hmargin={20}>
-            Buy Cylinder
-          </SText>
-        </Content>
+      <StatusBar backgroundColor={colors.secondary} barStyle="light-content" />
+      <Content flex={2}>
+        <TurnOffIcon color="#999999" size={width * 0.5} />
+        <SText
+          color="#999999"
+          width="90%"
+          align="center"
+          vmargin={20}
+          size="24px">
+          No Requests at the moment
+        </SText>
       </Content>
-      <Content justify="flex-end" flex={2.5}>
+      <Content justify="flex-end">
         <StyledButton
           bg={colors.primary}
           width="100%"
           onPress={() =>
             navigation.navigate('RequestGas', {cylinderSize: cylinder})
           }>
-          <SText size="20px" color="#ffffff">
-            Next
+          <SText size="20px" weight="700" color="#ffffff">
+            REFRESH
           </SText>
         </StyledButton>
       </Content>

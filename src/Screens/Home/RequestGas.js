@@ -30,8 +30,9 @@ const {height, width} = Dimensions.get('window');
 
 const RequestGas = props => {
   const {navigation, dispatch, userInfo, userData} = props;
-  const cylinderSize = navigation.getParam('cylinderSize');
+  const cylinderSize = navigation.getParam('cylinderSize') || '12';
   const [formInputs, setFormInputs] = useState({});
+  const [accepted, setAccepted] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -49,117 +50,95 @@ const RequestGas = props => {
         resetScrollToCoords={{x: 0, y: 0}}
         contentContainerStyle={{flexGrow: 1, width: width}}>
         <View>
-          <StatusBar backgroundColor="#ffffff" barStyle="light-content" />
-          <View style={{alignItems: 'center'}}>
-            <Content width="90%" vmargin={10} flex={0} align="center">
-              <Item floatingLabel>
-                <Label>Gas Cylinder Size (kg)</Label>
-                <Input
-                  name="current_age"
-                  keyboardType="number-pad"
-                  value={formInputs.cylinderSize || ''}
-                  disabled
-                  onChangeText={text =>
-                    setFormInputs(prev => ({...prev, cylinderSize: text}))
-                  }
-                />
-              </Item>
+          <StatusBar
+            backgroundColor={colors.secondary}
+            barStyle="light-content"
+          />
+          <View style={{alignItems: 'center', marginTop: 20}}>
+            <SText
+              width="100%"
+              weight="700"
+              uppercase
+              size="20px"
+              align="center"
+              color={colors.light}>
+              New request
+            </SText>
+            <Content width="90%" vmargin={15} flex={0} align="center">
+              <SText width="100%" bmargin={5} size="16px" color={colors.light}>
+                Gas Cylinder Size
+              </SText>
+              <SText width="100%" weight="700" size="30px" color={colors.light}>
+                12.5 kg
+              </SText>
             </Content>
-            <Content width="90%" vmargin={10} flex={0} align="flex-start">
-              <SText color="#777777" size="15px">
+            <Content width="90%" vmargin={15} flex={0} align="center">
+              <SText width="100%" bmargin={5} size="16px" color={colors.light}>
                 Gas
               </SText>
-              <Item>
-                <Picker
-                  mode="dropdown"
-                  iosIcon={<Icon name="arrow-down" />}
-                  style={{width: undefined}}
-                  placeholder="Select Cylinder"
-                  placeholderStyle={{color: '#bfc6ea'}}
-                  placeholderIconColor="#007aff"
-                  selectedValue={formInputs.gasSize || null}
-                  onValueChange={value => setGasSize(value)}>
-                  <Picker.Item label="Select Gas" value={null} />
-                  <Picker.Item label="4kg" value="4" />
-                  <Picker.Item label="8kg" value="8" />
-                  <Picker.Item label="12kg" value="12" />
-                </Picker>
-              </Item>
+              <SText width="100%" weight="700" size="30px" color={colors.light}>
+                12.5 kg
+              </SText>
             </Content>
-            <Content width="90%" vmargin={10} flex={0} align="center">
-              <Item floatingLabel>
-                <Label>Total</Label>
-                <Input
-                  name="total"
-                  keyboardType="number-pad"
-                  value={formInputs.total || ''}
-                  disabled
-                  onChangeText={text =>
-                    setFormInputs(prev => ({...prev, total: text}))
-                  }
-                />
-              </Item>
+            <Content width="90%" vmargin={15} flex={0} align="center">
+              <SText width="100%" bmargin={5} size="16px" color={colors.light}>
+                Pickup Address
+              </SText>
+              <SText width="100%" weight="700" size="30px" color={colors.light}>
+                Aco Estate Phase 2
+              </SText>
             </Content>
-            <Content
-              width="90%"
-              vmargin={10}
-              flex={0}
-              justify="flex-start"
-              horizontal>
-              <Item floatingLabel>
-                <Label>Pickup Address</Label>
-                <Input
-                  name="pickupAddress"
-                  keyboardType="default"
-                  textContentType="fullStreetAddress"
-                  value={formInputs.monthly_contribution || ''}
-                  onChangeText={text =>
-                    setFormInputs(prev => ({
-                      ...prev,
-                      monthly_contribution: text,
-                    }))
-                  }
-                />
-              </Item>
-            </Content>
-            <Content
-              width="90%"
-              vmargin={10}
-              flex={0}
-              justify="flex-start"
-              horizontal>
-              <Item floatingLabel>
-                <Label>Delivery Address</Label>
-                <Input
-                  name="pickupAddress"
-                  keyboardType="default"
-                  textContentType="fullStreetAddress"
-                  value={formInputs.monthly_contribution || ''}
-                  onChangeText={text =>
-                    setFormInputs(prev => ({
-                      ...prev,
-                      monthly_contribution: text,
-                    }))
-                  }
-                />
-              </Item>
+            <Content width="90%" vmargin={15} flex={0} align="center">
+              <SText width="100%" bmargin={5} size="16px" color={colors.light}>
+                Delivery Address
+              </SText>
+              <SText width="100%" weight="700" size="30px" color={colors.light}>
+                Aco Estate Phase 2
+              </SText>
             </Content>
           </View>
         </View>
         <Content width="100%" flex={0} justify="flex-end">
-          <StyledButton
-            bg={colors.primary}
-            width="100%"
-            // onPress={() => submit()}
-          >
-            {loading ? (
-              <Spinner color="#ffffff" />
-            ) : (
-              <SText size="20px" color="#ffffff">
-                Confirm
-              </SText>
-            )}
-          </StyledButton>
+          {accepted ? (
+            <StyledButton bg="#00a651" width="100%">
+              {loading ? (
+                <Spinner color="#ffffff" />
+              ) : (
+                <SText size="20px" weight="700" color="#ffffff">
+                  START
+                </SText>
+              )}
+            </StyledButton>
+          ) : (
+            <Content horizontal align="flex-end">
+              <StyledButton
+                bg="#b61e23"
+                width="50%"
+                onPress={() =>
+                  navigation.navigate('Home', {amount: formInputs.total})
+                }>
+                {loading ? (
+                  <Spinner color="#ffffff" />
+                ) : (
+                  <SText size="20px" weight="700" color="#ffffff">
+                    DECLINE
+                  </SText>
+                )}
+              </StyledButton>
+              <StyledButton
+                bg="#00a651"
+                width="50%"
+                onPress={() => setAccepted(true)}>
+                {loading ? (
+                  <Spinner color="#ffffff" />
+                ) : (
+                  <SText size="20px" weight="700" color="#ffffff">
+                    ACCEPT
+                  </SText>
+                )}
+              </StyledButton>
+            </Content>
+          )}
         </Content>
       </KeyboardAwareScrollView>
     </Content>

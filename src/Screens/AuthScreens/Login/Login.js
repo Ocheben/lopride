@@ -71,8 +71,8 @@ const Login = props => {
       resetScrollToCoords={{x: 0, y: 0}}
       contentContainerStyle={{
         flexGrow: 1,
-        backgroundColor: '#ffffff',
         alignItems: 'center',
+        backgroundColor: colors.secondary,
       }}>
     <StatusBar backgroundColor={colors.dark} barStyle="light-content" />
       <Content flex={0.3} justify="space-evenly">
@@ -81,24 +81,24 @@ const Login = props => {
       <Content flex={0.3} width="85%">
         <Item style={{marginBottom: 15}} floatingLabel>
           {/* <AtIcon color={colors.primary} size={30} /> */}
-          <Label>Phone</Label>
+          <Label style={{color: '#ffffff'}}>Phone</Label>
           <Input
             placeholder="Phone"
             keyboardType="number-pad"
             textContentType="telephoneNumber"
-            style={{color: '#444444'}}
+            style={{color: '#ffffff'}}
             onChangeText={text => setPhone(text)}
             value={phone}
           />
         </Item>
         <Item floatingLabel>
           {/* <LockIcon color={colors.primary} size={30} /> */}
-          <Label>Password</Label>
+          <Label style={{color: '#ffffff'}}>Password</Label>
           <Input
             placeholder="Password"
             secureTextEntry
             textContentType="password"
-            style={{color: '#444444'}}
+            style={{color: '#ffffff'}}
             onChangeText={text => setPassword(text)}
             value={password}
           />
@@ -107,6 +107,8 @@ const Login = props => {
       <Content flex={0.2} justify="space-evenly">
         <StyledButton
           bg={colors.primary}
+          curved
+          shadow
           width="85%"
           height={65}
           onPress={() => handleSubmit()}>
@@ -127,7 +129,7 @@ const Login = props => {
           </SText>
         </StyledButton>
         <View style={{ flexDirection: 'row'}}>
-          <SText size="15px" color="#777777" hmargin={5}>
+          <SText size="15px" color="#ffffff" hmargin={5}>
             Don't have an account?
           </SText>
           <StyledButton

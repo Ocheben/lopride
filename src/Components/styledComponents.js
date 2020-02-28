@@ -1,10 +1,13 @@
 import styled from 'styled-components/native';
 import {Input} from 'native-base';
+import LinearGradient from 'react-native-linear-gradient';
 
 export const colors = {
   // primary: '#37bf86',
   primary: '#fdbd0f',
   dark: '#363636',
+  secondary: '#404041',
+  light: '#777777',
 };
 
 export const Content = styled.View`
@@ -67,12 +70,13 @@ export const SText = styled.Text`
   margin-bottom: ${props => props.bmargin || props.vmargin || 0};
   margin-left: ${props => props.hmargin || 0};
   margin-right: ${props => props.hmargin || 0};
+  width: ${props => props.width || 'auto'};
 `;
 
 export const StyledButton = styled.TouchableOpacity`
   border-radius: ${props => (props.borderR || props.curved ? 10 : 0)};
   width: ${props => (props.width ? props.width : '80%')};
-  height: ${props => props.height || 50};
+  height: ${props => props.height || 65};
   background-color: ${props => (props.bg ? props.bg : 'transparent')};
   justify-content: ${props => props.justify || 'center'};
   align-items: ${props => props.align || 'center'};
@@ -80,6 +84,7 @@ export const StyledButton = styled.TouchableOpacity`
   margin-bottom: ${props => props.bmargin || props.vmargin || 0};
   margin-left: ${props => props.hmargin || 0};
   margin-right: ${props => props.hmargin || 0};
+  elevation: ${props => (props.shadow ? 5 : 0)};
 `;
 
 export const BlockView = styled.View`
@@ -128,4 +133,21 @@ export const SNInput = styled(Input)`
   margin-left: ${props => props.lmargin || props.hmargin || 0};
   margin-right: ${props => props.rmargin || props.hmargin || 0};
   border-radius: ${props => props.borderR || 0};
+`;
+
+export const GradientView = styled(LinearGradient)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  justify-content: flex-end;
+  padding-top: ${props => (props.vpadding ? props.vpadding : 10)};
+  padding-bottom: ${props => (props.vpadding ? props.vpadding : 10)};
+  padding-left: ${props => (props.hpadding ? props.hpadding : 10)};
+  padding-right: ${props => (props.hpadding ? props.hpadding : 10)};
+  margin-top: ${props => (props.vmargin ? props.vmargin : 0)};
+  margin-bottom: ${props => (props.vmargin ? props.vmargin : 0)};
+  margin-left: ${props => (props.hmargin ? props.hmargin : 0)};
+  margin-right: ${props => (props.rmargin ? props.rmargin : 0)};
 `;

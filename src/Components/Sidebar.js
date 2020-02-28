@@ -5,6 +5,7 @@ import {ScrollView, Dimensions, View} from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import AsyncStorage from '@react-native-community/async-storage';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import NumberFormat from 'react-number-format';
 import {onSignOut} from '../_services';
 import {BlockView, SText, LogoImg, colors, Content} from './styledComponents';
 import {
@@ -16,10 +17,15 @@ import {
   CalculatorIcon,
   LocationIcon,
   LogoutIcon,
+  GasCylinder,
+  OrderHistoryIcon,
+  FeedbackIcon,
+  CommentIcon,
+  WalletIcon,
 } from './icons';
 
 const avatar = require('../assets/img/avatar.png');
-
+const logo = require('../assets/img/logo.png');
 const {height, width} = Dimensions.get('window');
 
 const Sidebar = props => {
@@ -49,14 +55,23 @@ const Sidebar = props => {
     props.navigation.dispatch(navigateAction);
   };
   return (
-    <View style={{backgroundColor: colors.primary, height: '100%'}}>
+    <View style={{backgroundColor: '#ffffff', height: '100%'}}>
+      <Content bg={colors.secondary}>
+        <LogoImg
+          source={logo}
+          width={width * 0.4}
+          resizeMode="contain"
+          style={{alignSelf: 'center'}}
+        />
+      </Content>
       <View
         style={{
           flexDirection: 'row',
-          marginTop: height * 0.1,
           marginBottom: height * 0.05,
-          marginLeft: width / 20,
+          paddingLeft: width / 20,
+          height: height * 0.2,
           alignItems: 'center',
+          backgroundColor: colors.primary,
         }}>
         <View
           style={{
@@ -72,22 +87,33 @@ const Sidebar = props => {
           />
         </View>
         <BlockView hmargin={width / 30}>
-          <SText color="#ffffff" size="27px" weight="600">
-            {name}
+          <SText color="#444444" size="27px" weight="700">
+            Hassan Musa
           </SText>
+          <NumberFormat
+            value={30000}
+            displayType={'text'}
+            thousandSeparator={true}
+            prefix={'\u20A6'}
+            renderText={value => (
+              <SText color="#ffffff" size="20px" weight="700">
+                {value}
+              </SText>
+            )}
+          />
         </BlockView>
       </View>
       <ScrollView>
         <TouchableOpacity onPress={() => navigation.navigate('Dashboard')}>
           <BlockView width="100%" hmargin={width / 20} height={height / 15}>
             <Content horizontal justify="flex-start">
-              <DashboardIcon
+              <GasCylinder
                 size="30px"
-                color="#ffffff"
+                color={colors.primary}
                 style={{marginRight: 10}}
               />
-              <SText color="#ffffff" size="22px" fontWeight="400">
-                Dashboard
+              <SText color="#444444" size="22px" weight="bold">
+                Request
               </SText>
             </Content>
           </BlockView>
@@ -97,10 +123,10 @@ const Sidebar = props => {
             <Content horizontal justify="flex-start">
               <ContributionIcon
                 size="30px"
-                color="#ffffff"
+                color={colors.primary}
                 style={{marginRight: 10}}
               />
-              <SText color="#ffffff" size="22px" fontWeight="400">
+              <SText color="#444444" size="22px" weight="bold">
                 Contributions
               </SText>
             </Content>
@@ -109,13 +135,13 @@ const Sidebar = props => {
         <TouchableOpacity onPress={() => navigation.navigate('Requests')}>
           <BlockView width="100%" hmargin={width / 20} height={height / 15}>
             <Content horizontal justify="flex-start">
-              <RequestIcon
+              <OrderHistoryIcon
                 size="30px"
-                color="#ffffff"
+                color={colors.primary}
                 style={{marginRight: 10}}
               />
-              <SText color="#ffffff" size="22px" fontWeight="400">
-                Requests
+              <SText color="#444444" size="22px" weight="bold">
+                Delivery History
               </SText>
             </Content>
           </BlockView>
@@ -123,13 +149,13 @@ const Sidebar = props => {
         <TouchableOpacity onPress={() => navigation.navigate('Enquiry')}>
           <BlockView width="100%" hmargin={width / 20} height={height / 15}>
             <Content horizontal justify="flex-start">
-              <EnquiryIcon
+              <WalletIcon
                 size="30px"
-                color="#ffffff"
+                color={colors.primary}
                 style={{marginRight: 10}}
               />
-              <SText color="#ffffff" size="22px" fontWeight="400">
-                Enquiries
+              <SText color="#444444" size="22px" weight="bold">
+                Wallet
               </SText>
             </Content>
           </BlockView>
@@ -137,13 +163,13 @@ const Sidebar = props => {
         <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
           <BlockView width="100%" hmargin={width / 20} height={height / 15}>
             <Content horizontal justify="flex-start">
-              <PersonIcon
+              <FeedbackIcon
                 size="30px"
-                color="#ffffff"
+                color={colors.primary}
                 style={{marginRight: 10}}
               />
-              <SText color="#ffffff" size="22px" fontWeight="400">
-                Profile
+              <SText color="#444444" size="22px" weight="bold">
+                Feedback
               </SText>
             </Content>
           </BlockView>
@@ -151,27 +177,13 @@ const Sidebar = props => {
         <TouchableOpacity onPress={() => navigation.navigate('Pencalc')}>
           <BlockView width="100%" hmargin={width / 20} height={height / 15}>
             <Content horizontal justify="flex-start">
-              <CalculatorIcon
+              <CommentIcon
                 size="30px"
-                color="#ffffff"
+                color={colors.primary}
                 style={{marginRight: 10}}
               />
-              <SText color="#ffffff" size="22px" fontWeight="400">
-                Pension Calculator
-              </SText>
-            </Content>
-          </BlockView>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Locations')}>
-          <BlockView width="100%" hmargin={width / 20} height={height / 15}>
-            <Content horizontal justify="flex-start">
-              <LocationIcon
-                size="30px"
-                color="#ffffff"
-                style={{marginRight: 10}}
-              />
-              <SText color="#ffffff" size="22px" fontWeight="400">
-                Office Locations
+              <SText color="#444444" size="22px" weight="bold">
+                Contact Us
               </SText>
             </Content>
           </BlockView>
@@ -181,10 +193,10 @@ const Sidebar = props => {
             <Content horizontal justify="flex-start">
               <LogoutIcon
                 size="30px"
-                color="#ffffff"
+                color={colors.primary}
                 style={{marginRight: 10}}
               />
-              <SText color="#ffffff" size="22px" fontWeight="400">
+              <SText color="#444444" size="22px" weight="bold">
                 Logout
               </SText>
             </Content>
