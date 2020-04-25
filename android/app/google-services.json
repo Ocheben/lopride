@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "906804224041",
+    "firebase_url": "https://lopser-1f07f.firebaseio.com",
+    "project_id": "lopser-1f07f",
+    "storage_bucket": "lopser-1f07f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:906804224041:android:0ac3392666d6cff2ae3c38",
+        "android_client_info": {
+          "package_name": "com.lopride"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "906804224041-9jh3e2paseur6rt713b0bqgk24a6v7ma.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyrYF6mvmgFRHg0O31vMnxJ0qyTkUtCLk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "906804224041-9jh3e2paseur6rt713b0bqgk24a6v7ma.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:906804224041:android:30ca4409ff37b7f1ae3c38",
+        "android_client_info": {
+          "package_name": "com.stetis.notification"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "906804224041-9jh3e2paseur6rt713b0bqgk24a6v7ma.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyrYF6mvmgFRHg0O31vMnxJ0qyTkUtCLk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "906804224041-9jh3e2paseur6rt713b0bqgk24a6v7ma.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

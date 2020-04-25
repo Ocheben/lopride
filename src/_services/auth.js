@@ -4,13 +4,18 @@ export const USER_KEY = 'auth-demo-key';
 export const TOKEN = 'jwt-auth-token';
 
 export const onSignIn = user => {
-  console.log('onSignIn')
+  console.log('onSignIn');
   console.log(user);
-  const token = JSON.parse(user).access_token;
-  AsyncStorage.multiSet([[USER_KEY, 'true'], ['user', user], [TOKEN, token]], (err) => {
-    console.log(user);
-    if (err) console.log(err);
-  });
+  const token = JSON.parse(user).token;
+  AsyncStorage.multiSet(
+    [[USER_KEY, 'true'], ['user', user], [TOKEN, token]],
+    err => {
+      console.log(user);
+      if (err) {
+        console.log(err);
+      }
+    },
+  );
 };
 
 export const onSignOut = () => {

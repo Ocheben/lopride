@@ -12,6 +12,7 @@ import {
   Picker,
   Label,
   Input,
+  Toast,
 } from 'native-base';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {
@@ -22,23 +23,72 @@ import {
   StyledButton,
   colors,
 } from '../../../Components/styledComponents';
+import MapModal from '../../../Components/MapModal';
+import ImageSelector from '../../../Components/ImagePicker';
+import {APIS, request, toastDefault} from '../../../_services';
 
 const {height, width} = Dimensions.get('window');
 const logo = require('../../../assets/img/logo.png');
 
 const CompleteSignup = props => {
   const {navigation, dispatch, userInfo, userData} = props;
+  const phone = navigation.getParam('phone');
   const cylinderSize = navigation.getParam('cylinderSize') || '12';
-  const [formInputs, setFormInputs] = useState({});
+  const [formInputs, setFormInputs] = useState({driverlicense: ''});
   const [loading, setLoading] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState('');
 
-  useEffect(() => {
-    setFormInputs(prev => ({...prev, cylinderSize: cylinderSize}));
-  }, [cylinderSize]);
 
   const setGasSize = value => {
     const cost = parseInt(value || 0, 10) * 300;
     setFormInputs(prev => ({...prev, gasSize: value, total: cost.toString()}));
+  };
+
+  const onSelectLocation = (id, selectedLocation) => {
+    console.log(selectedLocation, id);
+    setFormInputs(prev => ({
+      ...prev,
+      ...selectedLocation.coordinates,
+    }));
+  };
+
+  const handleSubmit = async () => {
+    // navigation.navigate('SignedIn');
+    const {
+      baseUrl,
+      completeSignup: {method, path},
+    } = APIS;
+    console.log(path);
+    const submitUrl = `${baseUrl}${path}`;
+    if (confirmPassword === '' || confirmPassword !== formInputs.password) {
+      Toast.show({
+        ...toastDefault,
+        text: 'Password do not match',
+        type: 'danger',
+      });
+      return;
+    }
+    setLoading(true);
+    console.log(formInputs);
+    const response = await request(method, submitUrl, {...formInputs, phone});
+    console.log(response, method, submitUrl, {...formInputs, phone});
+    if (response.meta && response.meta.status === 200) {
+      Toast.show({
+        ...toastDefault,
+        text: 'You have successfully signed up',
+        type: 'success',
+      });
+      navigation.navigate('Login');
+      // dispatch(signup({...response, isLoggedin: true}));
+      // await signIn(JSON.stringify(response));
+    } else {
+      Toast.show({
+        ...toastDefault,
+        text: response.meta ? response.meta.message : 'An error occurred',
+        type: 'danger',
+      });
+    }
+    setLoading(false);
   };
 
   return (
@@ -116,22 +166,11 @@ const CompleteSignup = props => {
               flex={0}
               justify="flex-start"
               horizontal>
-              <Item floatingLabel>
-                <Label style={{color:'#ffffff'}}>Vehicle Documents</Label>
-                <Input
-                  name="vehicle"
-                  style={{color:'#ffffff'}}
-                  keyboardType="email-address"
-                  textContentType="emailAddress"
-                  value={formInputs.vehicle || ''}
-                  onChangeText={text =>
-                    setFormInputs(prev => ({
-                      ...prev,
-                      vehicle: text,
-                    }))
-                  }
-                />
-              </Item>
+              <MapModal
+                selectLocation={onSelectLocation}
+                name="Business Address"
+                id="business"
+              />
             </Content>
             <Content
               width="90%"
@@ -139,22 +178,12 @@ const CompleteSignup = props => {
               flex={0}
               justify="flex-start"
               horizontal>
-              <Item floatingLabel>
-                <Label style={{color:'#ffffff'}}>Driver's License</Label>
-                <Input
-                  name="driver"
-                  style={{color:'#ffffff'}}
-                  keyboardType="email-address"
-                  textContentType="emailAddress"
-                  value={formInputs.driver || ''}
-                  onChangeText={text =>
-                    setFormInputs(prev => ({
-                      ...prev,
-                      driver: text,
-                    }))
-                  }
-                />
-              </Item>
+              <ImageSelector
+                name="Valid ID"
+                onSelect={text =>
+                  setFormInputs(prev => ({...prev, document: text}))
+                }
+              />
             </Content>
             <Content
               width="90%"
@@ -187,20 +216,15 @@ const CompleteSignup = props => {
               justify="flex-start"
               horizontal>
               <Item floatingLabel>
-                <Label style={{color:'#ffffff'}}>Password</Label>
+                <Label style={{color:'#ffffff'}}>Repeat Password</Label>
                 <Input
                   name="confirmPassword"
                   style={{color:'#ffffff'}}
                   keyboardType="default"
                   textContentType="password"
                   secureTextEntry
-                  value={formInputs.conformPassword || ''}
-                  onChangeText={text =>
-                    setFormInputs(prev => ({
-                      ...prev,
-                      confirmPassword: text,
-                    }))
-                  }
+                  value={confirmPassword || ''}
+                  onChangeText={text => setConfirmPassword(text)}
                 />
               </Item>
             </Content>
@@ -212,7 +236,7 @@ const CompleteSignup = props => {
             curved
             shadow
             width="90%"
-            onPress={() => navigation.navigate('SignedIn')}>
+            onPress={() => handleSubmit()}>
             {loading ? (
               <Spinner color="#ffffff" />
             ) : (

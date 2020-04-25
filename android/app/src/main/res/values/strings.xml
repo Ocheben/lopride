@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Lopride</string>
+    <string name="app_name">Lopserv HQ</string>
+    <string name="maps_key">AIzaSyCakXn8VvuHq9CIju0OLAdIrBuQNxG2YK0</string>
+    <string name="default_notification_channel_id">906804224041</string>
 </resources>

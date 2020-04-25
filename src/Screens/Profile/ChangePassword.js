@@ -30,9 +30,9 @@ const ChangePassword = props => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [token, setToken] = useState(null);
 
-  useEffect(() => {
-    getToken();
-  }, []);
+  // useEffect(() => {
+  //   getToken();
+  // }, []);
 
   const getToken = async () => {
     const {
@@ -89,7 +89,10 @@ const ChangePassword = props => {
       resetScrollToCoords={{x: 0, y: 0}}
       contentContainerStyle={{flexGrow: 1}}>
       <View>
-        <StatusBar backgroundColor={colors.primary} barStyle="light-content" />
+        <StatusBar
+          backgroundColor={colors.secondary}
+          barStyle="light-content"
+        />
         <View style={{alignItems: 'center'}}>
           <Content width="90%" vmargin={10} flex={0} align="center">
             <Item>
@@ -128,9 +131,9 @@ const ChangePassword = props => {
             <StyledButton
               bg={colors.primary}
               curved
+              shadow
               width="90%"
-              disabled={newPassword === '' || newPassword !== confirmPassword}
-              onPress={() => handleSubmit()}>
+              disabled={newPassword === '' || newPassword !== confirmPassword}>
               {loading ? (
                 <Spinner color="#ffffff" />
               ) : (

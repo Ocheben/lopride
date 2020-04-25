@@ -23,8 +23,9 @@ import {
   StyledButton,
   colors,
 } from '../../Components/styledComponents';
-import {NextIcon} from '../../Components/icons';
+import {NextIcon, LocationIcon} from '../../Components/icons';
 import {RsaIcon} from '../../Components/Vectors';
+import Directions from '../../Components/Directions';
 
 const {height, width} = Dimensions.get('window');
 
@@ -64,7 +65,7 @@ const RequestGas = props => {
               color={colors.light}>
               New request
             </SText>
-            <Content width="90%" vmargin={15} flex={0} align="center">
+            <Content width="90%" vmargin={10} flex={0} align="center">
               <SText width="100%" bmargin={5} size="16px" color={colors.light}>
                 Gas Cylinder Size
               </SText>
@@ -72,7 +73,7 @@ const RequestGas = props => {
                 12.5 kg
               </SText>
             </Content>
-            <Content width="90%" vmargin={15} flex={0} align="center">
+            <Content width="90%" vmargin={10} flex={0} align="center">
               <SText width="100%" bmargin={5} size="16px" color={colors.light}>
                 Gas
               </SText>
@@ -80,21 +81,35 @@ const RequestGas = props => {
                 12.5 kg
               </SText>
             </Content>
-            <Content width="90%" vmargin={15} flex={0} align="center">
+            <Content width="90%" vmargin={10} flex={0} align="center">
               <SText width="100%" bmargin={5} size="16px" color={colors.light}>
                 Pickup Address
               </SText>
-              <SText width="100%" weight="700" size="30px" color={colors.light}>
-                Aco Estate Phase 2
-              </SText>
+              <Content horizontal width="90%">
+                <SText
+                  width="100%"
+                  weight="700"
+                  size="30px"
+                  color={colors.light}>
+                  Aco Estate Phase 2
+                </SText>
+                <Directions />
+              </Content>
             </Content>
-            <Content width="90%" vmargin={15} flex={0} align="center">
+            <Content width="90%" vmargin={10} flex={0} align="center">
               <SText width="100%" bmargin={5} size="16px" color={colors.light}>
                 Delivery Address
               </SText>
-              <SText width="100%" weight="700" size="30px" color={colors.light}>
-                Aco Estate Phase 2
-              </SText>
+              <Content horizontal width="90%">
+                <SText
+                  width="100%"
+                  weight="700"
+                  size="30px"
+                  color={colors.light}>
+                  Aco Estate Phase 2
+                </SText>
+                <Directions />
+              </Content>
             </Content>
           </View>
         </View>

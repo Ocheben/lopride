@@ -14,6 +14,7 @@ import {
   View,
   Text,
   StatusBar,
+  Alert,
 } from 'react-native';
 
 import {
@@ -33,6 +34,7 @@ import {store, persistor} from './src/_store/store';
 
 import {isSignedIn} from './src/_services';
 import {createRootNavigator} from './src/router';
+import {checkPermission} from './src/_services/firebase';
 
 const App: () => React$Node = () => {
   const [signedIn, setSignedIn] = useState(false);
@@ -41,6 +43,7 @@ const App: () => React$Node = () => {
   useEffect(() => {
     checkSignIn();
     SplashScreen.hide();
+    checkPermission();
   }, []);
 
   const checkSignIn = () => {
@@ -51,6 +54,7 @@ const App: () => React$Node = () => {
       })
       .catch(err => alert('An error occurred', err));
   };
+
   const Layout = createRootNavigator(signedIn);
   return !checkedSignIn ? null : (
     <>

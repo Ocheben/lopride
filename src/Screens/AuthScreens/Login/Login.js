@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Button, Text, Dimensions, StatusBar} from 'react-native';
 import {connect} from 'react-redux';
 import {Toast, Spinner} from 'native-base';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import AsyncStorage from '@react-native-community/async-storage';
 import {onSignIn} from '../../../_services';
 import {
   Content,
@@ -16,7 +17,6 @@ import {Item, Input, Icon, Label} from 'native-base';
 import {PersonIcon, LockIcon, AtIcon} from '../../../Components/icons';
 import {APIS, request, toastDefault} from '../../../_services';
 import {login} from '../../../_store/actions/authActions';
-import { LostCoinIcon } from '../../../Components/Vectors';
 
 const {height, width} = Dimensions.get('window');
 const logo = require('../../../assets/img/logo.png');
@@ -25,41 +25,61 @@ const Login = props => {
   const {navigation, dispatch, userInfo} = props;
   const [loading, setLoading] = useState(false);
   const [phone, setPhone] = useState('')
-  const [password, setPassword] = useState('')
+  const [password, setPassword] = useState('');
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    getToken();
+  }, []);
   const signIn = async user => {
     await onSignIn(user);
     navigation.navigate('SignedIn');
   };
 
-  const handleSubmit = async () => {
-    navigation.navigate('SignedIn');
-    // const {
-    //   baseUrl,
-    //   login: {method, path},
-    // } = APIS;
-    // console.log(path);
-    // const submitUrl = `${baseUrl}${path}`;
+  const getToken = async () => {
+    try {
+      const fcmToken = await AsyncStorage.getItem('fcmToken');
+      if (fcmToken !== null) {
+        // We have data!!
+        setToken(fcmToken);
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
+  };
 
-    // setLoading(true);
-    // const response = await request(method, submitUrl, {email, password});
-    // console.log(response, method, submitUrl, {email, password});
-    // if (response.access_token) {
-    //   Toast.show({
-    //     ...toastDefault,
-    //     text: 'You have successfully logged in',
-    //     type: 'success',
-    //   });
-    //   setLoading(false);
-    //   dispatch(login({...response, isLoggedin: true}));
-    //   await signIn(JSON.stringify(response));
-    // } else {
-    //   Toast.show({
-    //     ...toastDefault,
-    //     text: 'Invalid username or password',
-    //     type: 'danger',
-    //   });
-    // }
-    // setLoading(false);
+  const handleSubmit = async () => {
+    const {
+      baseUrl,
+      login: {method, path},
+    } = APIS;
+    console.log(path);
+    const submitUrl = `${baseUrl}${path}`;
+
+    setLoading(true);
+    const response = await request(method, submitUrl, {
+      phone,
+      password,
+      firebasetoken: token,
+    });
+    console.log(response, method, submitUrl, {phone, password});
+    if (response.token) {
+      Toast.show({
+        ...toastDefault,
+        text: 'You have successfully logged in',
+        type: 'success',
+      });
+      setLoading(false);
+      dispatch(login({...response, isLoggedin: true}));
+      await signIn(JSON.stringify(response));
+    } else {
+      Toast.show({
+        ...toastDefault,
+        text: 'Invalid username or password',
+        type: 'danger',
+      });
+    }
+    setLoading(false);
   };
 
   return (

@@ -12,21 +12,20 @@ import {
   colors,
 } from '../../Components/styledComponents';
 import {MenuIcon} from '../../Components/icons';
-import {APIS, request, toastDefault, requestJwt, onSignOut} from '../../_services';
+import {
+  APIS,
+  request,
+  toastDefault,
+  requestJwt,
+  onSignOut,
+} from '../../_services';
 import {getDash} from '../../_store/actions/userActions';
-
 
 const {height, width} = Dimensions.get('window');
 
 const EditProfile = props => {
   const {navigation, userInfo, userData, dispatch} = props;
-  const {
-    dashboard: {
-      user: {
-        rsa_account: {email, phone},
-      },
-    },
-  } = userData;
+  const {name, email, phone} = userInfo;
 
   const [formInputs, setFormInputs] = useState({email, phone});
   const [loading, setLoading] = useState(false);
@@ -75,9 +74,12 @@ const EditProfile = props => {
       resetScrollToCoords={{x: 0, y: 0}}
       contentContainerStyle={{flexGrow: 1}}>
       <View>
-        <StatusBar backgroundColor={colors.primary} barStyle="light-content" />
+        <StatusBar
+          backgroundColor={colors.secondary}
+          barStyle="light-content"
+        />
         <View style={{alignItems: 'center'}}>
-          <Content width="90%" vmargin={10} flex={0} align="center">
+          <Content width="90%" vmargin={20} flex={0} align="center">
             <Item floatingLabel last>
               <Label>Email</Label>
               <Input
@@ -104,11 +106,7 @@ const EditProfile = props => {
             </Item>
           </Content>
           <Content width="90%" vmargin={30} flex={0} justify="center">
-            <StyledButton
-              curved
-              bg={colors.primary}
-              width="80%"
-              onPress={() => submit()}>
+            <StyledButton curved shadow bg={colors.primary} width="80%">
               {loading ? (
                 <Spinner color="#ffffff" />
               ) : (

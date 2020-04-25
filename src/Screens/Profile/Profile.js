@@ -22,21 +22,15 @@ const {height, width} = Dimensions.get('window');
 const avatar = require('../../assets/img/avatar.png');
 
 const Profile = props => {
-  const {navigation, userData} = props;
-  const {
-    dashboard: {
-      user: {
-        rsa_account: {firstname, surname, email, phone, rsa_pin},
-      },
-    },
-  } = userData;
+  const {navigation, userData, userInfo} = props;
+  const {name, email, phone} = userInfo;
   return (
     // <View style={{backgroundColor: 'blue', flex: 1, justifyContent:'center'}}>
     //   <Text>Login</Text>
     //   <Button onPress={() => signIn('user')} title="Login" />
     // </View>
     <Content justify="space-between">
-      <StatusBar backgroundColor={colors.primary} barStyle="light-content" />
+      <StatusBar backgroundColor={colors.secondary} barStyle="light-content" />
       <Content flex={2} width="100%" justify="flex-start">
         <LogoImg
           source={avatar}
@@ -47,9 +41,9 @@ const Profile = props => {
       </Content>
       <Content flex={3} justify="flex-start" width="80%">
         <SText size="30px" weight="700" color="#444444">
-          {`${firstname || ''} ${surname || ''}`}
+          {name}
         </SText>
-        <Content horizontal justify="flex-start" align="center">
+        {/* <Content horizontal justify="flex-start" align="center">
           <LockIcon
             size="25px"
             color={colors.primary}
@@ -58,7 +52,7 @@ const Profile = props => {
           <SText size="20px" color={colors.dark}>
             {rsa_pin || ''}
           </SText>
-        </Content>
+        </Content> */}
         <Content horizontal justify="flex-start" align="center">
           <AtIcon
             size="25px"
@@ -83,6 +77,7 @@ const Profile = props => {
       <Content flex={2} justify="space-between" width="90%" horizontal>
         <StyledButton
           curved
+          shadow
           bg={colors.primary}
           width="45%"
           onPress={() => navigation.navigate('EditProfile')}>
@@ -95,6 +90,7 @@ const Profile = props => {
         </StyledButton>
         <StyledButton
           curved
+          shadow
           bg={colors.primary}
           width="45%"
           onPress={() => navigation.navigate('ChangePassword')}>
