@@ -35,7 +35,10 @@ export const requestJwt = (method, url, data, jwt) => {
           body: data && JSON.stringify(data),
         };
   return fetch(url, opts)
-    .then(res => res.json())
+    .then(res => {
+      console.log(res);
+      return res.json();
+    })
     .then(response => response)
     .catch(error => error);
 };

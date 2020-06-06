@@ -12,13 +12,14 @@ import {
 } from '../../Components/styledComponents';
 import {Item, Input, Icon, Label, Toast, Spinner} from 'native-base';
 import {PersonIcon, LockIcon} from '../../Components/icons';
-import {APIS, request, toastDefault} from '../../_services';
+import {APIS, request, toastDefault, requestJwt} from '../../_services';
 
 const {height, width} = Dimensions.get('window');
 const avatar = require('../../assets/img/avatar.png');
 
 const ChangePassword = props => {
   const {navigation, userData, userInfo} = props;
+  const {token} = userInfo;
   const {
     dashboard: {
       user: {email},
@@ -28,47 +29,34 @@ const ChangePassword = props => {
   const [password, setPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [token, setToken] = useState(null);
 
   // useEffect(() => {
   //   getToken();
   // }, []);
 
-  const getToken = async () => {
-    const {
-      baseUrl,
-      createPasswordToken: {method, path},
-    } = APIS;
-    console.log(path);
-    const submitUrl = `${baseUrl}${path}`;
-
-    setLoading(true);
-    const response = await request(method, submitUrl, {email});
-    console.log(response, method, submitUrl);
-    if (response.token) {
-      setToken(response.token);
-    }
-    setLoading(false);
-  };
-
   const handleSubmit = async () => {
+    if (confirmPassword !== newPassword || confirmPassword === '') {
+      Toast.show({
+        ...toastDefault,
+        text: 'Passwords do not match',
+        type: 'danger',
+      });
+      return;
+    }
     const {
       baseUrl,
       changePassword: {method, path},
     } = APIS;
-    console.log(path);
-    const submitUrl = `${baseUrl}${path}`;
+    const submitUrl = `${path}`;
 
     setLoading(true);
     const data = {
-      email,
-      password: newPassword,
-      password_confirmation: confirmPassword,
-      token,
+      password: password,
+      newpassword: confirmPassword,
     };
-    const response = await request(method, submitUrl, data);
+    const response = await requestJwt(method, path, data, token);
     console.log(response, method, submitUrl, data);
-    if (response.email) {
+    if (response.meta && response.meta.status === 200) {
       Toast.show({
         ...toastDefault,
         text: 'You have successfully changed your Password',
@@ -78,7 +66,7 @@ const ChangePassword = props => {
     } else {
       Toast.show({
         ...toastDefault,
-        text: 'Unable to change password',
+        text: response.message || 'Unable to change password',
         type: 'danger',
       });
     }
@@ -133,6 +121,7 @@ const ChangePassword = props => {
               curved
               shadow
               width="90%"
+              onPress={handleSubmit}
               disabled={newPassword === '' || newPassword !== confirmPassword}>
               {loading ? (
                 <Spinner color="#ffffff" />

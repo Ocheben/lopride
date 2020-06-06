@@ -23,6 +23,10 @@
       <meta-data
       android:name="com.google.android.geo.API_KEY"
       android:value="AIzaSyBxXNvYENmi9pen4wNucQZ2cX9VliYwz8c" />
+      <!-- <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/ic_launcher_round" />
+      <meta-data
+          android:name="com.google.firebase.messaging.default_notification_color" android:resource="@color/primary" /> -->
       <!-- <meta-data  android:name="com.google.firebase.messaging.default_notification_channel_id"
       android:value="@string/default_notification_channel_id"/> -->
       <!-- Add this SplashActivity -->
@@ -49,7 +53,7 @@
         </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" android:launchMode="singleTop"/>
-      <service android:name="io.invertase.firebase.messaging.RNFirebaseMessagingService">
+      <!-- <service android:name="io.invertase.firebase.messaging.RNFirebaseMessagingService">
         <intent-filter>
           <action android:name="com.google.firebase.MESSAGING_EVENT" />
         </intent-filter>
@@ -72,7 +76,7 @@
           <action android:name="io.invertase.firebase.notifications.BackgroundAction"/>
         </intent-filter>
       </receiver>
-      <service android:name="io.invertase.firebase.notifications.RNFirebaseBackgroundNotificationActionsService"/>
+      <service android:name="io.invertase.firebase.notifications.RNFirebaseBackgroundNotificationActionsService"/> -->
     </application>
 
 </manifest>

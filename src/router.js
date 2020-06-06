@@ -15,6 +15,7 @@ import Profile from './Screens/Profile/Profile';
 import ChangePassword from './Screens/Profile/ChangePassword';
 import EditProfile from './Screens/Profile/EditProfile';
 import Orders from './Screens/Orders/Orders';
+import Order from './Screens/Orders/Order';
 import {
   LogoImg,
   BlockView,
@@ -65,13 +66,13 @@ const HomeStack = createStackNavigator(
             height={height / 10}
             horizontal>
             <View style={{width: 40}}>
-              <Switch
+              {/* <Switch
                 value={false}
                 style={{borderColor: colors.primary}}
                 // onValueChange={value => setOnline(value)}
                 thumbColor={colors.primary}
                 trackColor={{true: colors.primary, false: '#999999'}}
-              />
+              /> */}
             </View>
             <LogoImg
               source={logo}
@@ -255,42 +256,64 @@ const ProfileStack = createStackNavigator(
   },
 );
 
-const OrderStack = createStackNavigator({
-  Orders: {
-    screen: Orders,
-    navigationOptions: ({navigation}) => ({
-      headerTitle: (
-        <Content
-          shadow
-          justify="space-between"
-          hpadding={12}
-          align="center"
-          bg={colors.secondary}
-          vmargin={10}
-          height={height / 10}
-          horizontal>
-          {/* <View style={{width: 40}} /> */}
-          {/* <TouchableOpacity
+const OrderStack = createStackNavigator(
+  {
+    Orders: {
+      screen: Orders,
+      navigationOptions: ({navigation}) => ({
+        headerTitle: (
+          <Content
+            shadow
+            justify="space-between"
+            hpadding={12}
+            align="center"
+            bg={colors.secondary}
+            vmargin={10}
+            height={height / 10}
+            horizontal>
+            {/* <View style={{width: 40}} /> */}
+            {/* <TouchableOpacity
             style={{width: 40}}
             onPress={() => navigation.openDrawer()}>
             <MenuIcon color="#ffffff" size={20} />
           </TouchableOpacity> */}
-          {
-            // <LogoImg source={logo} width={width * 0.3} resizeMode="contain" />
-          }
-          <SText size="28px" weight="700" color="#ffffff" hmargin={30}>
-            Orders
-          </SText>
-          <View style={{width: 40, justifyContent: 'center'}}>
-            <TouchableOpacity onPress={() => signOut(navigation)}>
-              <LogoutIcon color={colors.primary} size={25} />
-            </TouchableOpacity>
-          </View>
-        </Content>
-      ),
+            {
+              // <LogoImg source={logo} width={width * 0.3} resizeMode="contain" />
+            }
+            <SText size="28px" weight="700" color="#ffffff" hmargin={30}>
+              Orders
+            </SText>
+            <View style={{width: 40, justifyContent: 'center'}}>
+              <TouchableOpacity onPress={() => signOut(navigation)}>
+                <LogoutIcon color={colors.primary} size={25} />
+              </TouchableOpacity>
+            </View>
+          </Content>
+        ),
+      }),
+    },
+    Order: {
+      screen: Order,
+      navigationOptions: ({navigation}) => ({
+        headerTitle: 'Order',
+        headerStyle: {
+          backgroundColor: colors.secondary,
+        },
+        headerTitleStyle: {
+          fontWeight: 'bold',
+          fontSize: 25,
+          color: '#ffffff',
+        },
+        headerTintColor: colors.primary,
+      }),
+    },
+  },
+  {
+    navigationOptions: ({navigation}) => ({
+      tabBarVisible: navigation.state.index < 1,
     }),
   },
-});
+);
 
 const AuthStack = createStackNavigator({
   Landing: {

@@ -16,6 +16,26 @@ export const APIS = {
     method: 'POST',
     path: '/auth',
   },
+  changePassword: {
+    method: 'PUT',
+    path: 'https://lopservdealer.herokuapp.com/lopser/dealer/v1/auth/password',
+  },
+  editProfile: {
+    method: 'PUT',
+    path: '/auth/profile',
+  },
+  acceptOrders: {
+    method: 'POST',
+    path: '/acceptorder',
+  },
+  completeOrders: {
+    method: 'POST',
+    path: '/confirmation',
+  },
+  getOders: {
+    method: 'GET',
+    path: page => `/orders/pagination?pagenumber=${page || '0'}`,
+  },
 };
 
 export const toastDefault = {

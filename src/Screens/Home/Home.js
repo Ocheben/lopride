@@ -1,17 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Button,
-  Text,
-  Dimensions,
-  TouchableOpacity,
-  Alert,
-  StatusBar,
-} from 'react-native';
+import {Dimensions, Alert, StatusBar, DeviceEventEmitter} from 'react-native';
 import {connect} from 'react-redux';
-import NumberFormat from 'react-number-format';
-import firebase from 'react-native-firebase';
+import messaging from '@react-native-firebase/messaging';
 import {onSignOut} from '../../_services';
+import PushNotification from 'react-native-push-notification';
 import {getDash} from '../../_store/actions/userActions';
 import {
   SText,
@@ -20,13 +12,9 @@ import {
   colors,
   LogoImg,
 } from '../../Components/styledComponents';
-import {MenuIcon, TurnOffIcon} from '../../Components/icons';
-import {formatDate} from '../../_helpers';
-import {Spinner, Item, Picker, Icon, CheckBox, Body} from 'native-base';
-import {Advert} from '../../Components/Components';
+import {TurnOffIcon} from '../../Components/icons';
 
 const {height, width} = Dimensions.get('window');
-const ad = require('../../assets/img/ad.png');
 
 const Home = props => {
   const {navigation, dispatch, userInfo, userData} = props;
@@ -39,30 +27,50 @@ const Home = props => {
 
   useEffect(() => {
     messageListener();
+    // checkNotification();
   }, []);
+
   const signOut = () => {
     onSignOut();
     navigation.navigate('SignedOut');
   };
 
-  const messageListener = async () => {
-    firebase.notifications().onNotification(notification => {
-      const {title, body} = notification;
-      // showAlert(title, body);
-      navigation.navigate('RequestGas');
+  const messageListener = () => {
+    messaging().onNotificationOpenedApp(remoteMessage => {
+      console.log(
+        'Notification caused app to open from background state:',
+        remoteMessage.notification,
+      );
+      if (remoteMessage.data.buyid) {
+        navigation.navigate('RequestGas', {orderInfo: remoteMessage.data});
+      } else if (remoteMessage.data.rating) {
+        navigation.navigate('Orders');
+      }
     });
 
-    const notificationOpen = await firebase
-      .notifications()
-      .getInitialNotification();
-    if (notificationOpen) {
-      // const {title, body} = notificationOpen.notification;
-      // showAlert(title, body);
-      navigation.navigate('RequestGas');
-    }
-
-    firebase.messaging().onMessage(message => {
-      console.log(JSON.stringify(message));
+    // Check whether an initial notification is available
+    messaging()
+      .getInitialNotification()
+      .then(remoteMessage => {
+        if (remoteMessage) {
+          console.log(
+            'Notification caused app to open from quit state:',
+            remoteMessage.notification,
+          );
+          if (remoteMessage.data.buyid) {
+            navigation.navigate('RequestGas', {orderInfo: remoteMessage.data});
+          } else if (remoteMessage.data.rating) {
+            navigation.navigate('Orders');
+          }
+        }
+      });
+    messaging().onMessage(message => {
+      console.log(JSON.stringify(message), message);
+      if (message.data.buyid) {
+        navigation.navigate('RequestGas', {orderInfo: message.data});
+      } else if (message.data.rating) {
+        navigation.navigate('Orders');
+      }
     });
   };
 
@@ -89,20 +97,18 @@ const Home = props => {
           No Requests at the moment
         </SText>
       </Content>
-      <Content justify="center">
+      {/* <Content justify="center">
         <StyledButton
           bg={colors.primary}
           curved
           width="80%"
           shadow
-          onPress={() =>
-            navigation.navigate('RequestGas', {cylinderSize: cylinder})
-          }>
+          onPress={() => console.log(userInfo)}>
           <SText size="20px" weight="700" color="#ffffff">
             REFRESH
           </SText>
         </StyledButton>
-      </Content>
+      </Content> */}
     </Content>
   );
 };

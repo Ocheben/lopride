@@ -4,6 +4,7 @@ import {APIS, requestJwt, toastDefault} from '../../_services';
 
 const {
   SET_DASHBOARD,
+  SET_ORDERS,
   SET_LOADING,
   SET_CONTRIBUTIONS,
   SET_LOCATIONS,
@@ -12,6 +13,24 @@ const {
   SET_MISSING,
 } = USERCONSTANTS;
 const actionCreator = (type, payload) => ({type, payload});
+
+export const getOrders = (jwt, page) => {
+  const {
+    baseUrl,
+    getOders: {method, path},
+  } = APIS;
+  const url = `${baseUrl}${path(page)}`;
+  return async dispatch => {
+    dispatch(actionCreator(SET_LOADING, 'orders'));
+    const response = await requestJwt(method, url, {}, jwt);
+    console.log(response);
+    if (response.meta && response.meta.status === 200) {
+      dispatch(actionCreator(SET_ORDERS, response.data.orders));
+    }
+    dispatch(actionCreator(SET_LOADING, ''));
+  };
+};
+
 
 export const getDash = jwt => {
   const {

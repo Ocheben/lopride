@@ -25,9 +25,9 @@ const {height, width} = Dimensions.get('window');
 
 const EditProfile = props => {
   const {navigation, userInfo, userData, dispatch} = props;
-  const {name, email, phone} = userInfo;
+  const {name, email, phone, token} = userInfo;
 
-  const [formInputs, setFormInputs] = useState({email, phone});
+  const [formInputs, setFormInputs] = useState({name, email, phone});
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState({});
 
@@ -42,23 +42,15 @@ const EditProfile = props => {
     } = APIS;
     const url = `${baseUrl}${path}`;
     setLoading(true);
-    const response = await requestJwt(
-      method,
-      url,
-      formInputs,
-      userInfo.access_token,
-    );
+    const response = await requestJwt(method, url, formInputs, token);
     console.log(response, formInputs, url, method);
-    if (typeof response === 'string') {
-      dispatch(getDash(userInfo.access_token));
+    if (response.meta && response.meta.status === 200) {
       Toast.show({
         ...toastDefault,
         text: 'You have successfully updated your profile',
         type: 'success',
       });
-      if (formInputs.email !== email) {
-        signOut();
-      }
+      signOut();
     } else {
       Toast.show({
         ...toastDefault,
@@ -80,7 +72,20 @@ const EditProfile = props => {
         />
         <View style={{alignItems: 'center'}}>
           <Content width="90%" vmargin={20} flex={0} align="center">
-            <Item floatingLabel last>
+            <Item floatingLabel>
+              <Label>Name</Label>
+              <Input
+                name="name"
+                keyboardType="default"
+                value={formInputs.name || ''}
+                onChangeText={text =>
+                  setFormInputs(prev => ({...prev, name: text}))
+                }
+              />
+            </Item>
+          </Content>
+          <Content width="90%" vmargin={20} flex={0} align="center">
+            <Item floatingLabel>
               <Label>Email</Label>
               <Input
                 name="email"
@@ -93,7 +98,7 @@ const EditProfile = props => {
             </Item>
           </Content>
           <Content width="90%" vmargin={10} flex={0} align="center">
-            <Item floatingLabel last>
+            <Item floatingLabel>
               <Label>Phone</Label>
               <Input
                 name="phone"
@@ -106,7 +111,12 @@ const EditProfile = props => {
             </Item>
           </Content>
           <Content width="90%" vmargin={30} flex={0} justify="center">
-            <StyledButton curved shadow bg={colors.primary} width="80%">
+            <StyledButton
+              curved
+              shadow
+              bg={colors.primary}
+              width="80%"
+              onPress={submit}>
               {loading ? (
                 <Spinner color="#ffffff" />
               ) : (

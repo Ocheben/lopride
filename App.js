@@ -7,15 +7,7 @@
  */
 
 import React, {useState, useEffect} from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-  Alert,
-} from 'react-native';
+import {SafeAreaView, StyleSheet, DeviceEventEmitter} from 'react-native';
 
 import {
   Header,
@@ -29,7 +21,9 @@ import SplashScreen from 'react-native-splash-screen';
 
 import {PersistGate} from 'redux-persist/integration/react';
 import {Provider} from 'react-redux';
+import PushNotification from 'react-native-push-notification';
 // Imports: Redux Persist Persister
+import messaging from '@react-native-firebase/messaging';
 import {store, persistor} from './src/_store/store';
 
 import {isSignedIn} from './src/_services';
@@ -44,8 +38,47 @@ const App: () => React$Node = () => {
     checkSignIn();
     SplashScreen.hide();
     checkPermission();
+    checkNotification();
+    // DeviceEventEmitter.addListener('no', () => console.log('keyboard show'))
   }, []);
 
+  // useEffect(() => {
+  //   const unsubscribe = messaging().onMessage(async remoteMessage => {
+  //     Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+  //   });
+
+  //   return unsubscribe;
+  // }, []);
+
+  const checkNotification = () => {
+    PushNotification.configure({
+      // (optional) Called when Token is generated (iOS and Android)
+      onRegister: function(token) {
+        console.log('TOKEN:', token);
+      },
+
+      // (required) Called when a remote or local notification is opened or received
+      onNotification: function(notification) {
+        console.log('NOTIFICATION:', notification);
+
+        // process the notification
+      },
+
+      // ANDROID ONLY: FCM Sender ID (product_number) (optional - not required for local notifications, but is need to receive remote push notifications)
+      senderID: '906804224041',
+
+      // Should the initial notification be popped automatically
+      // default: true
+      popInitialNotification: true,
+
+      /**
+       * (optional) default: true
+       * - Specified if permissions (ios) and token (android and ios) will requested or not,
+       * - if not, you must call PushNotificationsHandler.requestPermissions() later
+       */
+      requestPermissions: true,
+    });
+  };
   const checkSignIn = () => {
     isSignedIn()
       .then(res => {

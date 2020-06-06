@@ -2,5 +2,6 @@
 <resources>
     <color name="splashscreen_bg">#ffffff</color>
     <color name="app_bg">#ffffff</color>
+    <color name="primary">#fdbd0f</color>
     <color name="dark">#363636</color>
 </resources>

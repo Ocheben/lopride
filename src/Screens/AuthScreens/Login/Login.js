@@ -140,14 +140,14 @@ const Login = props => {
             </SText>
           )}
         </StyledButton>
-        <StyledButton
+        {/* <StyledButton
           width="auto"
           height="auto"
           onPress={() => navigation.navigate('SignUp')}>
           <SText size="15px" weight="700" color={colors.primary}>
             Forgot Password
           </SText>
-        </StyledButton>
+        </StyledButton> */}
         <View style={{ flexDirection: 'row'}}>
           <SText size="15px" color="#ffffff" hmargin={5}>
             Don't have an account?

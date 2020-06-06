@@ -16,6 +16,7 @@ const persistConfig = {
   stateReconciler: autoMergeLevel2,
   // Whitelist (Save Specific Reducers)
   // whitelist: ['userInfo'],
+  timeout: null,
   // Blacklist (Don't Save Specific Reducers)
   // blacklist: [],
 };

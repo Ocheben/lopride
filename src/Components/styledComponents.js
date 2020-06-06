@@ -36,6 +36,31 @@ export const Content = styled.View`
   elevation: ${props => (props.shadow ? 5 : 0)};
 `;
 
+export const ContentB = styled.View`
+  background-color: ${props => props.bg || '#00000000'};
+  justify-content: ${props => props.justify || 'center'};
+  align-items: ${props => props.align || 'center'};
+  width: ${props => props.width || '100%'};
+  height: ${props => props.height || 'auto'};
+  flex-direction: ${props => (props.horizontal ? 'row' : 'column')};
+  padding-top: ${props => props.tpadding || props.vpadding || 0};
+  padding-bottom: ${props => props.bpadding || props.vpadding || 0};
+  padding-left: ${props => props.lpadding || props.hpadding || 0};
+  padding-right: ${props => props.rpadding || props.hpadding || 0};
+  margin-top: ${props => props.tmargin || props.vmargin || 0};
+  margin-bottom: ${props => props.bmargin || props.vmargin || 0};
+  margin-left: ${props => props.lmargin || props.hmargin || 0};
+  margin-right: ${props => props.rmargin || props.hmargin || 0};
+  border-radius: ${props => props.borderR || 0};
+  border-bottom-left-radius: ${props => props.blRadius || props.borderR || 0};
+  border-bottom-right-radius: ${props => props.brRadius || props.borderR || 0};
+  border-left-width: ${props => (props.ribbon ? 7 : 0)};
+  border-left-color: ${props => (props.ribbon ? colors.primary : '#00000000')};
+  box-shadow: ${props =>
+    props.shadow ? '0 3px 6px rgba(0,0,0,0.26)' : '0 0px 0px rgba(0,0,0,0.26)'};
+  elevation: ${props => (props.shadow ? 5 : 0)};
+`;
+
 export const ContentButton = styled.TouchableOpacity`
   flex: ${props => props.flex || 1};
   background-color: ${props => props.bg || '#00000000'};
@@ -68,8 +93,8 @@ export const SText = styled.Text`
   text-transform: ${props => (props.uppercase ? 'uppercase' : 'none')};
   margin-top: ${props => props.tmargin || props.vmargin || 0};
   margin-bottom: ${props => props.bmargin || props.vmargin || 0};
-  margin-left: ${props => props.hmargin || 0};
-  margin-right: ${props => props.hmargin || 0};
+  margin-left: ${props => props.lmargin || props.hmargin || 0};
+  margin-right: ${props => props.rmargin || props.hmargin || 0};
   width: ${props => props.width || 'auto'};
 `;
 

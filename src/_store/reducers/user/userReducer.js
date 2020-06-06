@@ -2,6 +2,7 @@ import {USERCONSTANTS, AUTHCONSTANTS} from '../../constants';
 
 const {
   SET_DASHBOARD,
+  SET_ORDERS,
   SET_LOADING,
   SET_CONTRIBUTIONS,
   SET_LOCATIONS,
@@ -13,6 +14,7 @@ const {LOGOUT} = AUTHCONSTANTS;
 
 const initState = {
   loading: '',
+  orders: [],
   rates: {},
   dashboard: {user: '', totalContributionsThisYear: '', lastContribution: {}},
   contributions: [],
@@ -28,6 +30,11 @@ const userData = (state = initState, action) => {
       return {
         ...state,
         loading: action.payload,
+      };
+    case SET_ORDERS:
+      return {
+        ...state,
+        orders: action.payload,
       };
     case SET_DASHBOARD:
       const ratesAr = JSON.parse(action.payload.employment.contribution_rates);

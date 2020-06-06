@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   View,
   Text,
+  Linking,
+  Platform,
   Alert,
   Dimensions,
   PermissionsAndroid,
@@ -17,18 +19,16 @@ import RNGooglePlaces from 'react-native-google-places';
 import MapViewDirections from 'react-native-maps-directions';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Content, SText, StyledButton, colors} from './styledComponents';
-import {LocationIcon} from './icons';
+import {LocationIcon, PhoneIcon} from './icons';
 
 const {height, width} = Dimensions.get('window');
 
 const GOOGLE_MAPS_APIKEY = 'AIzaSyBTayi6P01nXEy3AWsf7GoaL7pSpvjSv0E';
 
-const Directions = ({selectLocation, name, id, showLocation, showPhone}) => {
+const Directions = ({location, address, landmark, phone}) => {
   const [mapReady, setMapReady] = useState(false);
   const [mapOpen, setMapOpen] = useState(false);
-  const [location, setLocation] = useState({});
-  const [phone, setPhone] = useState('');
-  const [landmark, setLandmark] = useState('');
+  const [mlocation, setLocation] = useState({});
   const [region, setRegion] = useState({
     latitude: 9.0765,
     longitude: 7.3986,
@@ -79,6 +79,7 @@ const Directions = ({selectLocation, name, id, showLocation, showPhone}) => {
           // longitudeDelta: 0.0421,
         };
         setUserLoc(initRegion);
+        setRegion(prev => ({...prev, ...initRegion}));
       },
       error => console.log(error),
       {
@@ -89,46 +90,24 @@ const Directions = ({selectLocation, name, id, showLocation, showPhone}) => {
     );
   };
 
-  const setSearch = () => {
-    RNGooglePlaces.openAutocompleteModal(
-      {
-        country: 'NG',
-        type: 'establishment',
-      },
-      ['name', 'location', 'address'],
-    )
-      .then(place => {
-        console.log(place);
-        setLocation(prev => ({
-          ...prev,
-          address: place.address,
-          coordinates: place.location,
-        }));
-        setRegion(prev => ({
-          ...prev,
-          latitude: place.location.latitude,
-          longitude: place.location.longitude,
-        }));
-      })
-      .catch(error => console.log(error.message));
+  const makeCall = () => {
+    let phoneNumber = '';
+    const androidPrefix = 'tel:${';
+    const iosPrefix = 'telprompt:${';
+
+    if (Platform.OS === 'android') {
+      phoneNumber = androidPrefix + phone + '}';
+    } else {
+      phoneNumber = iosPrefix + phone + '}';
+    }
+
+    Linking.openURL(phoneNumber);
   };
 
-  const dragMarker = coordinate => {
-    setLocation(prev => ({
-      ...prev,
-      coordinates: coordinate,
-    }));
-    setRegion(prev => ({
-      ...prev,
-      latitude: coordinate.latitude,
-      longitude: coordinate.longitude,
-    }));
-  };
-
-  const onSelectLocation = () => {
-    selectLocation(id, location, landmark, phone);
-    setMapOpen(false);
-  };
+  // const onSelectLocation = () => {
+  //   selectLocation(id, location, landmark, phone);
+  //   setMapOpen(false);
+  // };
   return (
     <>
       <StyledButton width="auto" height="auto" onPress={() => setMapOpen(true)}>
@@ -145,7 +124,7 @@ const Directions = ({selectLocation, name, id, showLocation, showPhone}) => {
           resetScrollToCoords={{x: 0, y: 0}}
           contentContainerStyle={{flexGrow: 1, width: width}}>
           <MapView
-            style={{height: height * 0.85, width}}
+            style={{height: height * 0.6, width}}
             showsUserLocation={true}
             followsUserLocation={true}
             initialRegion={region}
@@ -155,15 +134,17 @@ const Directions = ({selectLocation, name, id, showLocation, showPhone}) => {
               <>
                 <Marker
                   coordinate={{
-                    latitude: region.latitude,
-                    longitude: region.longitude,
+                    latitude: location.latitude,
+                    longitude: location.longitude,
                   }}
                 />
                 <MapViewDirections
                   origin={userLoc}
-                  destination={region}
+                  destination={location}
                   apikey={GOOGLE_MAPS_APIKEY}
-                  strokeColor="hotpink"
+                  strokeWidth={3}
+                  strokeColor="#1e88e5"
+                  optimizeWaypoints={true}
                 />
               </>
             )}
@@ -184,13 +165,42 @@ const Directions = ({selectLocation, name, id, showLocation, showPhone}) => {
                 </Content>
               </Item>
             </View> */}
+            <Content horizontal width="90%">
+              <LocationIcon size="20px" color={colors.primary} />
+              <SText
+                size="17px"
+                lmargin={5}
+                color={colors.light}
+                numberOfLines={1}>
+                {address}
+              </SText>
+            </Content>
+            <Content horizontal width="95%" justify="flex-start">
+              <LocationIcon size="20px" color={colors.primary} />
+              <SText
+                width="100%"
+                size="17px"
+                lmargin={5}
+                color={colors.light}
+                numberOfLines={1}>
+                {landmark}
+              </SText>
+            </Content>
+            <Content horizontal width="95%" justify="flex-start">
+              <PhoneIcon size="20px" color={colors.primary} />
+              <SText
+                size="17px"
+                lmargin={5}
+                color={colors.light}
+                numberOfLines={1}>
+                {phone}
+              </SText>
+            </Content>
             <Content
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                width: '85%',
-                justifyContent: 'center',
-              }}>
+              horizontal
+              width="85%"
+              align="center"
+              justify="space-around">
               <StyledButton
                 bg={colors.dark}
                 curved
@@ -199,6 +209,16 @@ const Directions = ({selectLocation, name, id, showLocation, showPhone}) => {
                 onPress={() => setMapOpen(false)}>
                 <SText size="16px" weight="700" color="#ffffff">
                   Close
+                </SText>
+              </StyledButton>
+              <StyledButton
+                bg={colors.primary}
+                curved
+                width="40%"
+                height={45}
+                onPress={() => makeCall()}>
+                <SText size="16px" weight="700" color="#ffffff">
+                  Call
                 </SText>
               </StyledButton>
             </Content>
