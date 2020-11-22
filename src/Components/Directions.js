@@ -42,11 +42,15 @@ const Directions = ({location, address, landmark, phone}) => {
 
   useEffect(() => {
     setMapReady(true);
-    requestCameraPermission();
+    if (Platform.OS === 'ios') {
+      Geolocation.requestAuthorization();
+    } else {
+      requestLocationPermission();
+    }
     getUserLocation();
   }, []);
 
-  const requestCameraPermission = async () => {
+  const requestLocationPermission = async () => {
     try {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,

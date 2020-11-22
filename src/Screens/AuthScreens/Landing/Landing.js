@@ -34,7 +34,7 @@ const Landing = ({navigation}) => {
           delay={3000}
           indicatorOffset={0}
           inactiveIndicatorColor="#666666">
-          <Content>
+          <Content width={width}>
             <RiderIcon color={colors.primary} size={width * 0.4} />
             <SText color="#ffffff" size="32px" vmargin={10} weight="700">
               Sign Up
@@ -43,7 +43,7 @@ const Landing = ({navigation}) => {
               Earn money in your neighborhood
             </SText>
           </Content>
-          <Content>
+          <Content width={width}>
             <VerifyIcon color={colors.primary} size={width * 0.4} />
             <SText color="#ffffff" size="32px" vmargin={10} weight="700">
               Get Verified
@@ -52,7 +52,7 @@ const Landing = ({navigation}) => {
               Earn money in your neighborhood
             </SText>
           </Content>
-          <Content>
+          <Content width={width}>
             <RiderIcon color={colors.primary} size={width * 0.4} />
             <SText color="#ffffff" size="32px" vmargin={10} weight="700">
               Earn

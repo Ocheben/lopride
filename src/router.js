@@ -87,6 +87,9 @@ const HomeStack = createStackNavigator(
             </View>
           </Content>
         ),
+        headerStyle: {
+          backgroundColor: colors.secondary,
+        },
       }),
     },
     RequestGas: {
@@ -116,6 +119,9 @@ const HomeStack = createStackNavigator(
             <View style={{width: 40}} />
           </Content>
         ),
+        headerStyle: {
+          backgroundColor: colors.secondary,
+        },
         headerLeft: null,
       }),
     },
@@ -180,6 +186,9 @@ const HomeStack = createStackNavigator(
             </View>
           </Content>
         ),
+        headerStyle: {
+          backgroundColor: colors.secondary,
+        },
         headerLeft: null,
       }),
     },
@@ -216,6 +225,9 @@ const ProfileStack = createStackNavigator(
             </View>
           </Content>
         ),
+        headerStyle: {
+          backgroundColor: colors.secondary,
+        },
       }),
     },
     ChangePassword: {
@@ -290,6 +302,9 @@ const OrderStack = createStackNavigator(
             </View>
           </Content>
         ),
+        headerStyle: {
+          backgroundColor: colors.secondary,
+        },
       }),
     },
     Order: {
@@ -413,6 +428,12 @@ export const SignedIn = createBottomTabNavigator(
         borderTopWidth: 0,
         borderTopColor: 'red',
         elevation: 5,
+        shadowOpacity: 0.1,
+        shadowRadius: 6,
+        shadowColor: '#000000',
+        shadowOffset: {
+          height: -5,
+        },
       },
     },
     contentComponent: Sidebar,

@@ -3,7 +3,7 @@ import {Dimensions, Alert, StatusBar, DeviceEventEmitter} from 'react-native';
 import {connect} from 'react-redux';
 import messaging from '@react-native-firebase/messaging';
 import {onSignOut} from '../../_services';
-import PushNotification from 'react-native-push-notification';
+// import PushNotification from 'react-native-push-notification';
 import {getDash} from '../../_store/actions/userActions';
 import {
   SText,
@@ -85,7 +85,7 @@ const Home = props => {
 
   return (
     <Content bg="#ffffff">
-      <StatusBar backgroundColor={colors.secondary} barStyle="light-content" />
+      <StatusBar backgroundColor={colors.dark} barStyle="light-content" />
       <Content flex={2}>
         <TurnOffIcon color="#999999" size={width * 0.5} />
         <SText

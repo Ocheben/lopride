@@ -9,7 +9,7 @@ import {
 import 'react-native-gesture-handler';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {
-  GradientView,
+  // GradientView,
   SText,
   Content,
   LogoImg,
@@ -29,14 +29,13 @@ export const Advert = ({img, header}) => (
     source={img}
     style={{height: '100%', width: '100%'}}
     resizeMode="cover">
-    <GradientView
-      colors={['rgba(0,0,0,0.6)', 'rgba(0,0,0,0.6)', 'rgba(0,0,0,0.6)']}>
+    <View>
       <View style={{height: '20%', justifyContent: 'space-between'}}>
         <SText color={colors.primary} size="30px" weight="700">
           {header}
         </SText>
       </View>
-    </GradientView>
+    </View>
   </ImageBackground>
 );
 

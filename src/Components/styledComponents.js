@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import {Input} from 'native-base';
-import LinearGradient from 'react-native-linear-gradient';
+// import LinearGradient from 'react-native-linear-gradient';
 
 export const colors = {
   // primary: '#37bf86',
@@ -160,19 +160,19 @@ export const SNInput = styled(Input)`
   border-radius: ${props => props.borderR || 0};
 `;
 
-export const GradientView = styled(LinearGradient)`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  justify-content: flex-end;
-  padding-top: ${props => (props.vpadding ? props.vpadding : 10)};
-  padding-bottom: ${props => (props.vpadding ? props.vpadding : 10)};
-  padding-left: ${props => (props.hpadding ? props.hpadding : 10)};
-  padding-right: ${props => (props.hpadding ? props.hpadding : 10)};
-  margin-top: ${props => (props.vmargin ? props.vmargin : 0)};
-  margin-bottom: ${props => (props.vmargin ? props.vmargin : 0)};
-  margin-left: ${props => (props.hmargin ? props.hmargin : 0)};
-  margin-right: ${props => (props.rmargin ? props.rmargin : 0)};
-`;
+// export const GradientView = styled(LinearGradient)`
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   bottom: 0;
+//   justify-content: flex-end;
+//   padding-top: ${props => (props.vpadding ? props.vpadding : 10)};
+//   padding-bottom: ${props => (props.vpadding ? props.vpadding : 10)};
+//   padding-left: ${props => (props.hpadding ? props.hpadding : 10)};
+//   padding-right: ${props => (props.hpadding ? props.hpadding : 10)};
+//   margin-top: ${props => (props.vmargin ? props.vmargin : 0)};
+//   margin-bottom: ${props => (props.vmargin ? props.vmargin : 0)};
+//   margin-left: ${props => (props.hmargin ? props.hmargin : 0)};
+//   margin-right: ${props => (props.rmargin ? props.rmargin : 0)};
+// `;

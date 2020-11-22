@@ -144,10 +144,7 @@ const RequestGas = props => {
         resetScrollToCoords={{x: 0, y: 0}}
         contentContainerStyle={{flexGrow: 1, width: width}}>
         <View>
-          <StatusBar
-            backgroundColor={colors.secondary}
-            barStyle="light-content"
-          />
+          <StatusBar backgroundColor={colors.dark} barStyle="light-content" />
           <View style={{alignItems: 'center', marginTop: 20}}>
             <SText
               width="100%"
@@ -262,7 +259,10 @@ const RequestGas = props => {
             </StyledButton>
           ) : (
             <Content horizontal align="flex-end">
-              <StyledButton bg="#b61e23" width="50%">
+              <StyledButton
+                bg="#b61e23"
+                width="50%"
+                onPress={() => navigation.navigate('Home')}>
                 {loadingD ? (
                   <Spinner color="#ffffff" />
                 ) : (

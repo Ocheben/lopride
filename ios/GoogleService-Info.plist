@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>906804224041-8ca49bd3d37n57i12vv8t5gtlud8rajn.apps.googleusercontent.com</string>
+	<string>906804224041-lo3jelqb9nju1ob8brq5jbedlasjos1u.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.906804224041-8ca49bd3d37n57i12vv8t5gtlud8rajn</string>
+	<string>com.googleusercontent.apps.906804224041-lo3jelqb9nju1ob8brq5jbedlasjos1u</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCxv9UAi8enTN3Sff-ZcYd5cGddkmQumRc</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>org.reactjs.native.example.lopride</string>
+	<string>com.lopserv.vendor</string>
 	<key>PROJECT_ID</key>
 	<string>lopser-1f07f</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:906804224041:ios:b09ce6b76281ffb0ae3c38</string>
+	<string>1:906804224041:ios:85fa0bdccfdbf754ae3c38</string>
 	<key>DATABASE_URL</key>
 	<string>https://lopser-1f07f.firebaseio.com</string>
 </dict>

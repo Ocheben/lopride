@@ -6,6 +6,11 @@
  */
 
 #import "AppDelegate.h"
+#import <Firebase.h>
+// #import "RNSplashScreen.h"
+
+// @import GooglePlaces;
+// @import GoogleMaps;
 
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
@@ -15,6 +20,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  // [GMSPlacesClient provideAPIKey:@"AIzaSyCLCOkpSMgM86zZ3w9CnsWLcZ79cn8Da6k"];
+  // [GMSServices provideAPIKey:@"AIzaSyCLCOkpSMgM86zZ3w9CnsWLcZ79cn8Da6k"];
+  if ([FIRApp defaultApp] == nil) {
+    [FIRApp configure];
+  }
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"lopride"
@@ -27,6 +37,7 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  // [RNSplashScreen show];
   return YES;
 }
 
