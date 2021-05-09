@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {Toast, Spinner} from 'native-base';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {onSignIn} from '../../../_services';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import {
   Content,
   SText,
@@ -19,6 +20,7 @@ import {
   AtIcon,
   PhoneIcon,
   NextIcon,
+  BackArrow,
 } from '../../../Components/icons';
 import {APIS, request, toastDefault} from '../../../_services';
 import {login} from '../../../_store/actions/authActions';
@@ -53,12 +55,23 @@ const SignUp = props => {
     const response = await request(method, submitUrl, {phone});
     console.log(response, method, submitUrl, phone);
     if (response.meta && response.meta.status === 200) {
-      Toast.show({
-        ...toastDefault,
-        text: `OTP has been sent to ${phone}`,
-        type: 'success',
-      });
-      setSentPhone(true);
+      const {initstatus} = response.data || {};
+      if (initstatus === 1) {
+        Toast.show({
+          ...toastDefault,
+          text: `OTP has been sent to ${phone}`,
+          type: 'success',
+        });
+        setSentPhone(true);
+      }
+      if (initstatus === 2) {
+        Toast.show({
+          ...toastDefault,
+          text: 'Phone number has already been validated',
+          type: 'success',
+        });
+        navigation.navigate('CompleteSignup', {phone});
+      }
       // dispatch(login({...response, isLoggedin: true}));
       // await signIn(JSON.stringify(response));
     } else {
@@ -117,6 +130,15 @@ const SignUp = props => {
       <Content flex={0}>
         <LogoImg source={logo} width={width * 0.5} resizeMode="contain" />
       </Content>
+      <Content horizontal width="90%" justify="space-between">
+        {sentPhone && (
+          <TouchableOpacity
+            style={{width: 40}}
+            onPress={() => setSentPhone(false)}>
+            <BackArrow color={colors.primary} size="25px" />
+          </TouchableOpacity>
+        )}
+      </Content>
       {sentPhone ? (
         <>
           <Content flex={0} width="90%" align="flex-start">
@@ -129,6 +151,8 @@ const SignUp = props => {
               <LockIcon color={colors.primary} size={30} />
               <SNInput
                 floatingLabel
+                key="otp"
+                id="otp"
                 placeholder="OTP"
                 keyboardType="numeric"
                 textContentType="password"
@@ -181,6 +205,8 @@ const SignUp = props => {
             <Item style={{marginBottom: 15}}>
               <PhoneIcon color={colors.primary} size={30} />
               <SNInput
+                key="phone"
+                id="phone"
                 floatingLabel
                 placeholder="Phone Number"
                 keyboardType="numeric"

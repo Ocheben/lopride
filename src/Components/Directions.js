@@ -55,10 +55,8 @@ const Directions = ({location, address, landmark, phone}) => {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         {
-          title: 'Cool Photo App ACCESS_FINE_LOCATION Permission',
-          message:
-            'Cool Photo App needs access to your ACCESS_FINE_LOCATION ' +
-            'so you can take awesome pictures.',
+          title: 'App ACCESS_FINE_LOCATION Permission',
+          message: 'App needs access to your ACCESS_FINE_LOCATION ',
           buttonNeutral: 'Ask Me Later',
           buttonNegative: 'Cancel',
           buttonPositive: 'OK',

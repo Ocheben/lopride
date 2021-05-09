@@ -100,7 +100,7 @@ const CompleteSignup = props => {
           width: width,
           backgroundColor: colors.secondary,
         }}>
-        <View>
+        <View style={{marginTop: 30}}>
           <StatusBar
             backgroundColor={colors.secondary}
             barStyle="light-content"
